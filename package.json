@@ -1,0 +1,35 @@
+{
+  "name": "slack-backho-bot",
+  "version": "0.0.1",
+  "description": "Slack Bot",
+  "main": "./main",
+  "keywords": [
+    "slack", "bot"
+  ],
+  "author": {
+    "name": "Lee Sanghyuck <shlee322@elab.kr>"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/shlee322/slack-backho-bot/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:shlee322/slack-backho-bot.git"
+  },
+  "bugs": {
+    "url": "http://github.com/shlee322/slack-backho-bot/issues"
+  },
+  "dependencies": {
+    "log": "1.4.0",
+    "slack-client":"1.4.0",
+    "ssh2": "0.4.4"
+  },
+  "engines": {
+    "node": ">= 0.10.x",
+    "npm": ">= 1.1.x"
+  },
+  "homepage": "https://github.com/shlee322/slack-backho-bot"
+}
