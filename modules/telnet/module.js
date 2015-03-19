@@ -20,9 +20,9 @@ function slack_on_message(message) {
 
     var userId = message.channel + "@" + message.user;
 
-    if(message.text == '!telnet' && !telnet_object[userId]) start_telnet(message);
-    if(message.text == '!telnet exit' && telnet_object[userId]) stop_telnet(message);
-    if(message.text.indexOf('$') === 0 && telnet_object[userId] && telnet_object[userId].stream) input_cmd(message);
+    if(message.text && message.text == '!telnet' && !telnet_object[userId]) start_telnet(message);
+    if(message.text && message.text == '!telnet exit' && telnet_object[userId]) stop_telnet(message);
+    if(message.text && message.text.indexOf('$') === 0 && telnet_object[userId] && telnet_object[userId].stream) input_cmd(message);
 }
 
 function start_telnet(message) {
