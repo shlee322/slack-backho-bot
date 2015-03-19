@@ -30,16 +30,20 @@ function slack_on_message(message) {
                 if(/(\S+).kr/.test(domain)) {
                     request('http://whois.kisa.or.kr/openapi/whois.jsp?query=' + domain + '&key=' + bot.config.whois.api_key + '&answer=json', function (error, response, body) {
                         var message = "";
-                        var domain_info = JSON.parse(body).whois.krdomain;
+                        try {
+                            var domain_info = JSON.parse(body).whois.krdomain;
                    
-                        if(domain_info.error) {
-                            message = domain_info.error.error_msg;
-                        } else {
-                            message += "도메인 명: " + domain_info.name + "\n";
-                            message += "등록인: " + domain_info.regName + "\n";
-                            message += "관리자: " + domain_info.adminName + " <" + domain_info.adminEmail + ">\n";
-                            message += "기간: " + domain_info.regDate + " ~ " + domain_info.endDate + "\n";
-                            message += "네임서버: " + domain_info.ns1;
+                            if(domain_info.error) {
+                                message = domain_info.error.error_msg;
+                            } else {
+                                message += "도메인 명: " + domain_info.name + "\n";
+                                message += "등록인: " + domain_info.regName + "\n";
+                                message += "관리자: " + domain_info.adminName + " <" + domain_info.adminEmail + ">\n";
+                                message += "기간: " + domain_info.regDate + " ~ " + domain_info.endDate + "\n";
+                                message += "네임서버: " + domain_info.ns1;
+                            }
+                        } catch(e) {
+                            message = "조회중 에러가 발생하였습니다"
                         }
 
                         channel.send("*"+user.name+"*\n" + domain + " Whois 결과\n```\n" + message + "\n```");
