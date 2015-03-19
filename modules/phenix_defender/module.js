@@ -5,7 +5,6 @@ var fs = require('fs');
 var bot = null;
 var typeInfo = null;
 var messageHeader = null;
-var defaultTypeName = null;
 
 exports.init = function(bot_obj) {
     bot = bot_obj;
@@ -14,7 +13,6 @@ exports.init = function(bot_obj) {
 		'message_changed': '-수정-'
 	};
 	messageHeader = "[주작질경보]";
-	defaultTypeName = "-기타-";
 
     bot.slack.on('message', slack_on_message);
 }
@@ -25,20 +23,16 @@ function slack_on_message(message) {
 	
 	var subType = message.subtype;
 	
+	var userName = "확인불가";
 	if ("message" in message){
 		var internalMessage = message.message;
 		var editedInfo = internalMessage.edited;
 		var editedUserId = editedInfo.user;
 		var userInfo = bot.slack.getUserByID(editedUserId);
 		var userName = userInfo["name"];
-	} else {
-		var userName = "확인불가";
-	}
-	var typeName = defaultTypeName;
-	if (subType in typeInfo){
-		typeName = typeInfo[subType];
 	}
 	
+	var typeName = typeInfo[subType];
 	var returnMessage = messageHeader + typeName + " From : " + userName;
 	
 	bot.slack.getChannelGroupOrDMByID(message.channel).send(returnMessage);
