@@ -1,9 +1,12 @@
 {
-    "token":"",
+    "token":"Slack Token",
     "autoReconnect": true,
     "autoMark":true,
     "telnet": {
         "key_file":"/home/ubuntu/.ssh/id_rsa",
         "authorized_key_file": "/home/ubuntu/.ssh/id_rsa.pub"
+    },
+    "whois": {
+        "api_key": "KISA Whois OpenAPI Key"
     }
 }

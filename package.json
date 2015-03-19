@@ -25,7 +25,8 @@
   "dependencies": {
     "log": "1.4.0",
     "slack-client":"1.4.0",
-    "ssh2": "0.4.4"
+    "ssh2": "0.4.4",
+    "request": "2.53.0"
   },
   "engines": {
     "node": ">= 0.10.x",
