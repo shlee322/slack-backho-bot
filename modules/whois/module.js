@@ -27,7 +27,7 @@ function slack_on_message(message) {
                 reg_result = domain.match(/<http:\/\/(\S+)\>/);
                 if(reg_result) domain = reg_result[1];
 
-                if(domain.test(/(\S+).kr/)) {
+                if(/(\S+).kr/.test(domain)) {
                     request('http://whois.kisa.or.kr/openapi/whois.jsp?query=' + domain + '&key=' + bot.config.whois.api_key + '&answer=json', function (error, response, body) {
                         var message = "";
                         var domain_info = JSON.parse(body).whois.krdomain;
