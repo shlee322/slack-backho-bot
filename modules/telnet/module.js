@@ -52,7 +52,7 @@ function input_cmd(message) {
 
     message = message.text.substring(1)
     message = message.replace(/<http:\/\/(\S+)\|(\S+)\>/, "$2") 
-    message = message.replace(/<http:\/\/(\S+)\>/, "$1")
+    message = message.replace(/<(\S+)\>/, "$1")
     message = message.replace('&amp;', '&')
     message = message.replace('&lt;', '<')
     message = message.replace('&gt;', '>')
