@@ -23,7 +23,7 @@ function slack_on_message(message) {
         lastSyncTime = time;
         exec('git rev-parse --verify HEAD', function (error, oldver, stderr) {
             channel.send('현재 버전: ' + oldver);
-            exec('git checkout', function (err, stdout, stderr) {
+            exec('git pull', function (err, stdout, stderr) {
                 channel.send('```\n' + stdout + '\n```');
                 exec('git rev-parse --verify HEAD', function (error, newver, stderr) {
                     if(newver != oldver) {
