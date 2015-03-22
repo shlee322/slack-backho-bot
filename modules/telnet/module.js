@@ -50,7 +50,14 @@ function stop_telnet(message) {
 function input_cmd(message) {
     var userId = message.channel + "@" + message.user;
 
-    telnet_object[userId].stream.write(message.text.substring(1) + '\n');
+    message = message.text.substring(1)
+    message = message.replace(/<http:\/\/(\S+)\|(\S+)\>/, "$2") 
+    message = message.replace(/<http:\/\/(\S+)\>/, "$1")
+    message = message.replace('&amp;', '&')
+    message = message.replace('&lt;', '<')
+    message = message.replace('&gt;', '>')
+
+    telnet_object[userId].stream.write(message + '\n');
 }
 
 function open_telnet(message) {
