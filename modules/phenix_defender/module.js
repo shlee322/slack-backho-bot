@@ -20,12 +20,14 @@ function slack_on_message(message) {
     var subType = message.subtype;
     
     var userName = "확인불가";
-    if ("message" in message){
+    if ("message" in message) {
         var internalMessage = message.message;
-        var editedInfo = internalMessage.edited;
-        var editedUserId = editedInfo.user;
-        var userInfo = bot.slack.getUserByID(editedUserId);
-        var userName = userInfo["name"];
+        if("edited" in internalMessage) {
+            var editedInfo = internalMessage.edited;
+            var editedUserId = editedInfo.user;
+            var userInfo = bot.slack.getUserByID(editedUserId);
+            userName = userInfo["name"];
+        }
     }
     
     var typeName = typeInfo[subType];
