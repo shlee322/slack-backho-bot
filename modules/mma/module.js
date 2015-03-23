@@ -19,18 +19,18 @@ function slack_on_message(message) {
     if(message.text && message.text.indexOf('!전역일 등록 ') === 0) {
         var split_text = message.text.split(' ');
         if(split_text.length != 3) {
-             channel.send("형식: !전역일 등록 YYYY-MM-DD");
+             channel.send("형식: `!전역일 등록 YYYY-MM-DD`");
              return;
         }
         var d = Date.parse(split_text[2]);
         if(!d) {
-            chanel.send("날짜 형식이 잘못되었습니다.");
+            channel.send("날짜 형식이 잘못되었습니다. `!전역일 등록 YYYY-MM-DD`");
             return;
         }
 
         db.serialize(function() {
             db.run("INSERT OR REPLACE INTO mma_data VALUES ('" + message.user + "', " + d + ");");
-            chanel.send("전역일이 " + new Date(d).toISOString().slice(0,10) + "으로 설정되었습니다");
+            channel.send("전역일이 " + new Date(d).toISOString().slice(0,10) + "으로 설정되었습니다");
         });
         
         return;
