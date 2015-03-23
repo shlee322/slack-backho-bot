@@ -37,7 +37,7 @@ function slack_on_message(message) {
 
         db.serialize(function() {
             db.run("INSERT OR REPLACE INTO mma_data VALUES ('" + message.user + "', " + start_date + ", " + end_date + ");");
-            channel.send("전역일이 " + new Date(end_time).toISOString().slice(0,10) + "으로 설정되었습니다");
+            channel.send("전역일이 " + new Date(end_date).toISOString().slice(0,10) + "으로 설정되었습니다");
         });
         
         return;
