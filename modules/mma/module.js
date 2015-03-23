@@ -38,7 +38,7 @@ function slack_on_message(message) {
 
     if(message.text && message.text == "!전역일") {
         //TODO : 동시에 여러명 보는 것도
-        db.all("SELECT * FROM mma_data WHERE user='" + message.user + "';", function(err, rows) {
+        db.all("SELECT * FROM mma_data WHERE user_id='" + message.user + "';", function(err, rows) {
             if(rows.length < 1) {
                 channel.send("전역일이 등록되어 있지 않습니다. `!전역일 등록 YYYY-MM-DD`");
                 return;
