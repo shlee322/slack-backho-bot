@@ -53,28 +53,30 @@ function slack_on_message(message) {
 
             var message = "";
 
-            var p = (new Date().getTime() - rows[0].start_date) / (rows[0].end_date - rows[0].start_date); // 현재까지 지난 날 / 복무기간
-            if(p < 0) p = 0;
+            var p = (new Date().getTime() - rows[0].start_date) * 1.0 / (rows[0].end_date - rows[0].start_date); // 현재까지 지난 날 / 복무기간
+            if(p < 0) p = 0.0;
             p = p * 100;
 
+            var check = false;
             for(var i=0; i<=100; i=i+5) {
-                if(p < i) {
+                if(p > i) {
                     message += "=";
-                } else if (p > i) {
-                    message += "-";
+                } else if (p < i && check) {
+                    message += " ";
                 } else {
                     message += ">";
+                    check = true;
                 }
             }
 
-            message += "[" + p + "%]";
+            message = "[" + message + "] " + p.substring(0, 5) + "%";
 
             if(p >= 100) {
-                p = "100";
+                p = 100;
                 message = "전역을 축하합니다!";
             }
  
-            channel.send("[" + bot.slack.getUserByID(rows[0].user_id)  + "] " + new Date(rows[0].end_date).toISOString().slice(0,10) + "    " + message);
+            channel.send(bot.slack.getUserByID(rows[0].user_id).name  + " " + new Date(rows[0].end_date).toISOString().slice(0,10) + "    " + message);
         });
         return;
     }
