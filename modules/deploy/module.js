@@ -30,7 +30,6 @@ function slack_on_message(message) {
                         channel.send('신규 버전: ' + newver);
                         channel.send('서버 갱신을 시작합니다.');
                         setTimeout(function() {
-                            var process = require('process');
                             process.exit(0);
                         }, 1500);
                     } else {
