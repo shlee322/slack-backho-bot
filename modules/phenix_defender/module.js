@@ -31,7 +31,7 @@ function slack_on_message(message) {
     }
     
     var typeName = typeInfo[subType];
-    var returnMessage = messageHeader + typeName + " From : " + userName;
+    var returnMessage = messageHeader + typeName + " 주작충 : " + userName;
     
     bot.slack.getChannelGroupOrDMByID(message.channel).send(returnMessage);
 }
