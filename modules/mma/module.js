@@ -69,7 +69,7 @@ function slack_on_message(message) {
                 }
             }
 
-            message = "[" + message + "] " + p.substring(0, 5) + "%";
+            message = "[" + message + "] " + p.toString().substring(0, 5) + "%";
 
             if(p >= 100) {
                 p = 100;
