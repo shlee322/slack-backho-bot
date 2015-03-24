@@ -43,40 +43,50 @@ function slack_on_message(message) {
         return;
     }
 
-    if(message.text && message.text == "!전역일") {
-        //TODO : 동시에 여러명 보는 것도
-        db.all("SELECT * FROM mma_data WHERE user_id='" + message.user + "';", function(err, rows) {
+    if(message.text && (message.text == "!전역일" || message.text == "!전역일 전체")) {
+        var query = "SELECT * FROM mma_data";
+        if(message.text == "!전역일") {
+            query += " WHERE user_id='" + message.user + "'";
+        }
+
+        db.all(query, function(err, rows) {
             if(rows.length < 1) {
                 channel.send("전역일이 등록되어 있지 않습니다. `!전역일 등록 시작일(YYYY-MM-DD) 종료일(YYYY-MM-DD)`");
                 return;
             }
 
-            var message = "";
+            var channel_message = "";
 
-            var p = (new Date().getTime() - rows[0].start_date) * 1.0 / (rows[0].end_date - rows[0].start_date); // 현재까지 지난 날 / 복무기간
-            if(p < 0) p = 0.0;
-            p = p * 100;
+            for(var rows_i=0; rows_i<rows.length; rows_i++) {
+                var message = "";
 
-            var check = false;
-            for(var i=0; i<=100; i=i+5) {
-                if(p > i) {
-                    message += "=";
-                } else if (p < i && check) {
-                    message += " ";
-                } else {
-                    message += ">";
-                    check = true;
+                var p = (new Date().getTime() - rows[rows_i].start_date) * 1.0 / (rows[rows_i].end_date - rows[rows_i].start_date); // 현재까지 지난 날 / 복무기간
+                if(p < 0) p = 0.0;
+                p = p * 100;
+
+                var check = false;
+                for(var i=0; i<=100; i=i+5) {
+                    if(p > i) {
+                        message += "=";
+                    } else if (p < i && check) {
+                        message += "-";
+                    } else {
+                        message += ">";
+                        check = true;
+                    }
                 }
+
+                message = "[" + message + "] " + p.toString().substring(0, 5) + "%";
+
+                if(p >= 100) {
+                    p = 100;
+                    message = "전역을 축하합니다!";
+                }
+
+                channel_message += "*" + bot.slack.getUserByID(rows[rows_i].user_id).name  + "* " + new Date(rows[rows_i].end_date).toISOString().slice(0,10) + "    " + message + "\n";
             }
 
-            message = "[" + message + "] " + p.toString().substring(0, 5) + "%";
-
-            if(p >= 100) {
-                p = 100;
-                message = "전역을 축하합니다!";
-            }
- 
-            channel.send(bot.slack.getUserByID(rows[0].user_id).name  + " " + new Date(rows[0].end_date).toISOString().slice(0,10) + "    " + message);
+            channel.send(channel_message);
         });
         return;
     }
