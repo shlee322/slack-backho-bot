@@ -20,6 +20,7 @@ function slack_on_message(message) {
     var subType = message.subtype;
     
     var userName = "알 수 없음.";
+	var editBySystem = (subType == 'message_changed');
     if ("message" in message) {
         var internalMessage = message.message;
         if("edited" in internalMessage) {
@@ -27,9 +28,13 @@ function slack_on_message(message) {
             var editedUserId = editedInfo.user;
             var userInfo = bot.slack.getUserByID(editedUserId);
             userName = userInfo["name"];
+			editBySystem = false;
         }
     }
     
+	if (editBySystem){
+		return
+	}
     var typeName = typeInfo[subType];
     var returnMessage = messageHeader + " " + typeName + " 주작충 : " + userName;
     
