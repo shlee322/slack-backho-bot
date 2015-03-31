@@ -11,7 +11,7 @@ function slack_on_message(message) {
 
     var channel = bot.slack.getChannelGroupOrDMByID(message.channel);
     if(message.text && message.text.indexOf('!계산 ') === 0) {
-        channel.send(math.eval(message.text.substring(4)));
+        channel.send(math.eval(message.text.substring(4)).toString());
     }
 }
 
